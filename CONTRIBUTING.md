@@ -48,6 +48,8 @@ Contributors are expected to provide evidence proportional to the change:
 
 If tests are not practical for a specific change, explain why and identify the remaining risk clearly in the review.
 
+Before asking for review on a material change, run `pnpm verify` from the repository root. If a step is knowingly skipped, say so explicitly in the change description.
+
 ## Dependencies and Tooling
 
 - Add new dependencies only when they are justified and maintainable.

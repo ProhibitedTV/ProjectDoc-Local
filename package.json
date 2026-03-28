@@ -1,0 +1,35 @@
+{
+  "name": "projectdoc-local",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.6.5",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm build:packages && concurrently -n shared,config,api,worker,web -c blue,green,cyan,yellow,white \"pnpm --filter @projectdoc/shared dev\" \"pnpm --filter @projectdoc/config dev\" \"pnpm --filter @projectdoc/api dev\" \"pnpm --filter @projectdoc/worker dev\" \"pnpm --filter @projectdoc/web dev\"",
+    "dev:api": "pnpm build:packages && pnpm --filter @projectdoc/api dev",
+    "dev:worker": "pnpm build:packages && pnpm --filter @projectdoc/worker dev",
+    "dev:web": "pnpm build:packages && pnpm --filter @projectdoc/web dev",
+    "build": "pnpm build:packages && pnpm --filter @projectdoc/api build && pnpm --filter @projectdoc/worker build && pnpm --filter @projectdoc/web build",
+    "build:packages": "pnpm --filter @projectdoc/shared build && pnpm --filter @projectdoc/config build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm --filter @projectdoc/shared typecheck && pnpm --filter @projectdoc/config typecheck && pnpm --filter @projectdoc/testing typecheck && pnpm --filter @projectdoc/api typecheck && pnpm --filter @projectdoc/worker typecheck && pnpm --filter @projectdoc/web typecheck",
+    "test": "pnpm build:packages && pnpm -r test",
+    "verify": "pnpm lint && pnpm typecheck && pnpm test"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "@types/node": "^22.14.1",
+    "concurrently": "^9.1.2",
+    "dotenv-cli": "^8.0.0",
+    "eslint": "^9.24.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "globals": "^16.0.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.29.0",
+    "vitest": "^3.1.1"
+  }
+}

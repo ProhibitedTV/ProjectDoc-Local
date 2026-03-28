@@ -1,0 +1,457 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  admin
+  reviewer
+  operator
+}
+
+enum UserStatus {
+  invited
+  active
+  disabled
+}
+
+enum ProjectStatus {
+  active
+  on_hold
+  closed
+  archived
+}
+
+enum CounterpartyType {
+  vendor
+  subcontractor
+  carrier
+  customer
+  inspector
+  other
+}
+
+enum DocumentType {
+  certificate_of_insurance
+  invoice
+  change_order
+  lien_waiver
+  permit
+  contract
+  inspection_report
+  unknown
+}
+
+enum DocumentSourceType {
+  upload
+  watched_folder
+  service_endpoint
+}
+
+enum DocumentStatus {
+  ingested
+  processing
+  classified
+  extracted
+  needs_review
+  approved
+  rejected
+  exported
+  failed
+}
+
+enum DocumentFileKind {
+  original
+  ocr_pdf
+  preview_image
+  derived_text
+  export_csv
+}
+
+enum ProcessingTriggerType {
+  upload
+  watched_folder
+  service_endpoint
+  reprocess
+}
+
+enum ProcessingRunStatus {
+  queued
+  running
+  completed
+  failed
+}
+
+enum ClassificationMethod {
+  rules
+  model
+  hybrid
+  stub
+}
+
+enum ReviewReason {
+  low_confidence
+  missing_required_field
+  conflicting_values
+  policy_rule_triggered
+  ocr_quality_issue
+}
+
+enum ReviewPriority {
+  low
+  normal
+  high
+  urgent
+}
+
+enum ReviewTaskStatus {
+  open
+  in_progress
+  follow_up
+  resolved
+  rejected
+}
+
+enum ReviewActionType {
+  assign
+  comment
+  approve
+  correct
+  needs_follow_up
+  reject
+}
+
+enum ReviewFieldStatus {
+  unreviewed
+  accepted
+  corrected
+  rejected
+}
+
+enum FieldValueSource {
+  machine
+  human
+}
+
+enum AuditActorType {
+  system
+  user
+}
+
+enum AuditEntityType {
+  project
+  counterparty
+  document
+  processing_run
+  document_classification
+  document_extraction
+  extracted_field
+  review_task
+  reviewed_field_value
+  user
+  export_job
+  system_config
+}
+
+enum AuditEventType {
+  document_ingested             @map("document.ingested")
+  document_pipeline_stage_changed @map("document.pipeline_stage_changed")
+  document_flagged_for_review   @map("document.flagged_for_review")
+  document_approved             @map("document.approved")
+  classification_generated      @map("classification.generated")
+  extraction_generated          @map("extraction.generated")
+  review_approved               @map("review.approved")
+  review_corrected              @map("review.corrected")
+  review_follow_up_requested    @map("review.follow_up_requested")
+  export_requested              @map("export.requested")
+  export_completed              @map("export.completed")
+  export_failed                 @map("export.failed")
+  admin_settings_changed        @map("admin.settings_changed")
+}
+
+enum ExportFormat {
+  csv
+}
+
+enum ExportStatus {
+  queued
+  running
+  completed
+  failed
+}
+
+model User {
+  id                   String               @id @default(cuid())
+  email                String               @unique
+  displayName          String
+  role                 UserRole
+  status               UserStatus           @default(active)
+  passwordHash         String?
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+  lastLoginAt          DateTime?
+  processingRuns       ProcessingRun[]
+  assignedReviewTasks  ReviewTask[]         @relation("ReviewTaskAssignee")
+  reviewActions        ReviewAction[]
+  reviewedFieldValues  ReviewedFieldValue[]
+  exportJobs           ExportJob[]
+}
+
+model Project {
+  id           String        @id @default(cuid())
+  projectCode  String        @unique
+  projectName  String
+  status       ProjectStatus @default(active)
+  customerName String?
+  externalRef  String?
+  metadataJson Json?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  documents    Document[]
+}
+
+model Counterparty {
+  id           String           @id @default(cuid())
+  name         String
+  type         CounterpartyType
+  externalRef  String?
+  metadataJson Json?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  documents    Document[]
+}
+
+model Document {
+  id                  String                @id @default(cuid())
+  projectId           String?
+  counterpartyId      String?
+  sourceType          DocumentSourceType
+  sourceRef           String?
+  originalFilename    String
+  mimeType            String
+  sha256              String?
+  documentType        DocumentType          @default(unknown)
+  status              DocumentStatus        @default(ingested)
+  needsReview         Boolean               @default(false)
+  receivedAt          DateTime              @default(now())
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  metadataJson        Json?
+  project             Project?              @relation(fields: [projectId], references: [id])
+  counterparty        Counterparty?         @relation(fields: [counterpartyId], references: [id])
+  files               DocumentFile[]
+  pages               DocumentPage[]
+  processingRuns      ProcessingRun[]
+  classifications     DocumentClassification[]
+  extractions         DocumentExtraction[]
+  extractedFields     ExtractedField[]
+  reviewedFieldValues ReviewedFieldValue[]
+  reviewTasks         ReviewTask[]
+  reviewActions       ReviewAction[]
+  auditEvents         AuditEvent[]
+
+  @@index([projectId, status])
+  @@index([counterpartyId, status])
+}
+
+model DocumentFile {
+  id          String           @id @default(cuid())
+  documentId  String
+  kind        DocumentFileKind
+  storagePath String           @unique
+  sizeBytes   Int
+  mimeType    String
+  sha256      String?
+  createdAt   DateTime         @default(now())
+  document    Document         @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@index([documentId, kind])
+}
+
+model DocumentPage {
+  id            String    @id @default(cuid())
+  documentId    String
+  pageNumber    Int
+  textContent   String?
+  ocrConfidence Float?
+  width         Float?
+  height        Float?
+  imagePath     String?
+  createdAt     DateTime  @default(now())
+  document      Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([documentId, pageNumber])
+}
+
+model ProcessingRun {
+  id                   String                @id @default(cuid())
+  documentId           String
+  triggeredByUserId    String?
+  triggerType          ProcessingTriggerType
+  status               ProcessingRunStatus   @default(queued)
+  startedAt            DateTime?
+  completedAt          DateTime?
+  errorSummary         String?
+  providerVersionsJson Json?
+  createdAt            DateTime              @default(now())
+  document             Document              @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  triggeredByUser      User?                 @relation(fields: [triggeredByUserId], references: [id])
+  classification       DocumentClassification?
+  extraction           DocumentExtraction?
+  reviewTasks          ReviewTask[]
+  auditEvents          AuditEvent[]
+
+  @@index([documentId, status, createdAt])
+}
+
+model DocumentClassification {
+  id            String               @id @default(cuid())
+  documentId    String
+  processingRunId String             @unique
+  predictedType DocumentType
+  confidence    Float
+  method        ClassificationMethod
+  reasonsJson   Json?
+  rawOutputJson Json?
+  createdAt     DateTime             @default(now())
+  document      Document             @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  processingRun ProcessingRun        @relation(fields: [processingRunId], references: [id], onDelete: Cascade)
+}
+
+model DocumentExtraction {
+  id                String         @id @default(cuid())
+  documentId        String
+  processingRunId   String         @unique
+  schemaName        String
+  schemaVersion     String
+  overallConfidence Float
+  payloadJson       Json?
+  createdAt         DateTime       @default(now())
+  document          Document       @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  processingRun     ProcessingRun  @relation(fields: [processingRunId], references: [id], onDelete: Cascade)
+  fields            ExtractedField[]
+}
+
+model ExtractedField {
+  id                  String             @id @default(cuid())
+  documentId          String
+  documentExtractionId String
+  fieldKey            String
+  fieldLabel          String
+  valueJson           Json
+  normalizedText      String?
+  confidence          Float
+  citationsJson       Json
+  provenanceJson      Json
+  createdAt           DateTime           @default(now())
+  document            Document           @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  extraction          DocumentExtraction @relation(fields: [documentExtractionId], references: [id], onDelete: Cascade)
+  reviewedValues      ReviewedFieldValue[]
+
+  @@index([documentId, fieldKey])
+  @@index([documentExtractionId])
+}
+
+model ReviewedFieldValue {
+  id                     String            @id @default(cuid())
+  documentId             String
+  fieldKey               String
+  fieldLabel             String
+  sourceExtractedFieldId String?
+  machineValueJson       Json?
+  machineConfidence      Float?
+  authoritativeValueJson Json?
+  authoritativeValueSource FieldValueSource @default(machine)
+  reviewStatus           ReviewFieldStatus @default(unreviewed)
+  reviewerId             String?
+  reviewedAt             DateTime?
+  notes                  String?
+  citationsJson          Json?
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+  document               Document          @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  sourceExtractedField   ExtractedField?   @relation(fields: [sourceExtractedFieldId], references: [id])
+  reviewer               User?             @relation(fields: [reviewerId], references: [id])
+  reviewActions          ReviewAction[]
+
+  @@unique([documentId, fieldKey])
+}
+
+model ReviewTask {
+  id               String           @id @default(cuid())
+  documentId       String
+  processingRunId  String?
+  reason           ReviewReason
+  priority         ReviewPriority   @default(normal)
+  status           ReviewTaskStatus @default(open)
+  assignedToUserId String?
+  createdAt        DateTime         @default(now())
+  completedAt      DateTime?
+  document         Document         @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  processingRun    ProcessingRun?   @relation(fields: [processingRunId], references: [id], onDelete: SetNull)
+  assignedToUser   User?            @relation("ReviewTaskAssignee", fields: [assignedToUserId], references: [id])
+  actions          ReviewAction[]
+
+  @@index([documentId, status, priority])
+}
+
+model ReviewAction {
+  id                   String           @id @default(cuid())
+  reviewTaskId         String
+  documentId           String
+  reviewedFieldValueId String?
+  userId               String
+  action               ReviewActionType
+  fieldKey             String?
+  beforeValueJson      Json?
+  afterValueJson       Json?
+  notes                String?
+  createdAt            DateTime         @default(now())
+  reviewTask           ReviewTask       @relation(fields: [reviewTaskId], references: [id], onDelete: Cascade)
+  document             Document         @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  reviewedFieldValue   ReviewedFieldValue? @relation(fields: [reviewedFieldValueId], references: [id])
+  user                 User             @relation(fields: [userId], references: [id])
+
+  @@index([documentId, createdAt])
+}
+
+model AuditEvent {
+  id              String          @id @default(cuid())
+  documentId      String?
+  processingRunId String?
+  actorType       AuditActorType
+  actorId         String?
+  eventType       AuditEventType
+  entityType      AuditEntityType
+  entityId        String
+  requestId       String?
+  summary         String?
+  reason          String?
+  changesJson     Json?
+  relatedEntitiesJson Json?
+  metadataJson    Json?
+  occurredAt      DateTime        @default(now())
+  document        Document?       @relation(fields: [documentId], references: [id], onDelete: SetNull)
+  processingRun   ProcessingRun?  @relation(fields: [processingRunId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId, occurredAt])
+}
+
+model ExportJob {
+  id                String       @id @default(cuid())
+  requestedByUserId String
+  format            ExportFormat @default(csv)
+  status            ExportStatus @default(queued)
+  filterJson        Json?
+  outputPath        String?
+  rowCount          Int?
+  createdAt         DateTime     @default(now())
+  completedAt       DateTime?
+  requestedByUser   User         @relation(fields: [requestedByUserId], references: [id])
+
+  @@index([status, createdAt])
+}

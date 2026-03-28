@@ -195,9 +195,9 @@ Key fields:
 
 This is the durable snapshot of what the system believed at a point in time.
 
-### `document_field_values`
+### `extracted_fields`
 
-Stores field-level values surfaced in the review UI and export pipeline.
+Stores immutable machine-produced facts for a specific extraction snapshot.
 
 Key fields:
 
@@ -209,14 +209,11 @@ Key fields:
 - `value_json`
 - `normalized_text`
 - `confidence`
-- `status` such as `proposed`, `approved`, `corrected`, `rejected`
-- `source_page_number`
-- `source_bbox_json`
-- `source_chunk_id`
-- `last_updated_by`
-- `last_updated_at`
+- `citations_json`
+- `provenance_json`
+- `created_at`
 
-This table is intentionally generic. It is better for a multi-document MVP than creating separate relational field tables for every document type too early.
+This table preserves what the system originally proposed. It should not be overwritten when a reviewer makes a correction.
 
 ### Search and Q&A
 
@@ -294,6 +291,29 @@ Common reasons:
 - policy rule triggered
 - OCR quality issue
 
+### `reviewed_field_values`
+
+Stores the current authoritative field values for the document after human review.
+
+Key fields:
+
+- `id`
+- `document_id`
+- `field_key`
+- `field_label`
+- `source_extracted_field_id`
+- `machine_value_json`
+- `machine_confidence`
+- `authoritative_value_json`
+- `authoritative_value_source`
+- `review_status`
+- `reviewer_id`
+- `reviewed_at`
+- `notes`
+- `citations_json`
+
+This table makes overrides explicit. Machine output stays in `extracted_fields`, while the current business-approved value lives here.
+
 ### `review_actions`
 
 Stores reviewer actions against a document or task.
@@ -303,8 +323,10 @@ Key fields:
 - `id`
 - `review_task_id`
 - `document_id`
+- `reviewed_field_value_id`
 - `user_id`
 - `action`
+- `field_key`
 - `notes`
 - `before_json`
 - `after_json`
@@ -386,15 +408,16 @@ Examples:
 
 - A `document` has many `document_files`, `document_pages`, `processing_runs`, `review_tasks`, and `audit_events`.
 - A `processing_run` may produce one `document_classification` and one `document_extraction`.
-- A `document_extraction` has many `document_field_values`.
+- A `document_extraction` has many `extracted_fields`.
 - A `document_page` has many `document_chunks`.
+- A `document` has many `reviewed_field_values`.
 - A `qa_query` has many `qa_query_citations`.
 - An `export_job` points to one generated export file.
 
 ## Why This Model Fits the MVP
 
 - It keeps workflow and audit data relational and explicit.
-- It keeps document-type extraction flexible through JSONB and field rows.
+- It keeps machine extraction output separate from reviewed authoritative values.
 - It supports page-level citations without introducing a separate search database.
 - It supports reprocessing without losing the original system output.
 - It avoids fake multi-tenant complexity while leaving room for later growth.

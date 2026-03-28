@@ -12,6 +12,19 @@ This is the right MVP shape for the product:
 - it supports background processing without turning the system into a distributed platform
 - it leaves room to swap OCR, extraction, embedding, and answer-generation components later
 
+## Current Repository Status
+
+This document describes the intended MVP architecture, not a claim that every component already exists in production-ready form.
+
+The current repository foundation already includes:
+
+- a separate API, worker, and web application
+- shared product-owned schemas and provider interfaces
+- JSON-backed local development stores for documents, review state, exports, audit events, and settings
+- early upload, search, review, and audit slices
+
+The main architectural gap still to close is persistence convergence. The codebase is moving toward the PostgreSQL-centered design described here, but several modules still use local JSON stores so the product can keep shipping thin slices while the relational model stabilizes.
+
 ## System Diagram
 
 ```mermaid

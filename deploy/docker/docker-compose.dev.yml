@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: projectdoc-postgres
+    environment:
+      POSTGRES_DB: projectdoc_local
+      POSTGRES_USER: projectdoc
+      POSTGRES_PASSWORD: projectdoc
+    ports:
+      - "5432:5432"
+    volumes:
+      - projectdoc-postgres:/var/lib/postgresql/data
+
+  model:
+    image: ollama/ollama:latest
+    container_name: projectdoc-model
+    ports:
+      - "11434:11434"
+    volumes:
+      - projectdoc-models:/root/.ollama
+
+volumes:
+  projectdoc-postgres:
+  projectdoc-models:

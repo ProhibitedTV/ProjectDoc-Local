@@ -18,6 +18,27 @@ The recommended MVP stack for ProjectDoc Local is:
 
 This is the one MVP path I recommend.
 
+## Current Repository Status
+
+The repository is aligned to this stack, but it is not fully implemented yet.
+
+What is already present:
+
+- `pnpm` workspaces
+- `Node.js` and `TypeScript` application scaffolding
+- `NestJS` API and worker processes
+- `React` + `Vite` + `TanStack` + `Material UI` web app
+- `Prisma` schema definitions for the target data model
+- shared `Zod` schemas and provider contracts
+
+What is still ahead of the repo:
+
+- Prisma-backed repositories replacing the current JSON-backed development stores
+- PostgreSQL-backed job handling and retrieval indexing
+- structured application logging
+- browser end-to-end coverage
+- committed dependency lockfile and CI-enforced install reproducibility
+
 ## Stack by Area
 
 | Area | Choice | Why It Fits |

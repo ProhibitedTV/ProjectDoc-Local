@@ -1,0 +1,26 @@
+{
+  "pages": [
+    {
+      "pageNumber": 1,
+      "regions": [
+        {
+          "text": "Permit Application",
+          "confidence": 1.2,
+          "boundingBox": {
+            "x": 125,
+            "y": 90,
+            "width": 420,
+            "height": 42
+          }
+        },
+        {
+          "text": "City of Denver",
+          "confidence": -0.2,
+          "boundingBox": {
+            "x": 126
+          }
+        }
+      ]
+    }
+  ]
+}

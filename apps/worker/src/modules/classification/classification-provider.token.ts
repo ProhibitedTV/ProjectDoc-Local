@@ -1,0 +1,1 @@
+export const DOCUMENT_CLASSIFIER = Symbol("DOCUMENT_CLASSIFIER");
