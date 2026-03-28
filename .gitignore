@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.npm/
+.yarn/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Build output
+dist/
+build/
+coverage/
+.next/
+out/
+.turbo/
+.cache/
+*.tsbuildinfo
+
+# Runtime files
+*.log
+logs/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.pid
+*.seed
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Local application data
+data/
+uploads/
+storage/
+models/
+artifacts/
+tmp/
+temp/
+
+# Test artifacts
+playwright-report/
+test-results/
+
+# Docker and local deployment overrides
+docker-compose.override.yml
+
+# Editor and OS files
+.idea/
+.vscode/
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
