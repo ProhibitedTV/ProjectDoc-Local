@@ -1,20 +1,20 @@
 # ProjectDoc Local
 
-ProjectDoc Local is an on-prem AI-assisted document intake and review platform for project-based businesses. It is aimed at contractors, specialty trades, construction back offices, and similar teams that manage a steady stream of compliance, billing, and project paperwork and need that work to stay inside customer-controlled infrastructure.
+ProjectDoc Local is an on-prem document review product for contractors, specialty trades, and construction back offices. The first commercial wedge is certificate of insurance review: receive COIs, extract the fields that matter, route uncertain cases to a human reviewer, and keep a durable audit trail inside customer-controlled infrastructure.
 
-The product direction is simple: receive documents, determine what they are, extract the fields that matter, route uncertain cases to a human reviewer, and keep an auditable record of every decision. The goal is not to build an "AI demo." The goal is to build a product that can survive real operational use.
+The near-term goal is narrow and commercial: help compliance coordinators and back-office reviewers process subcontractor and vendor COIs faster without giving up local deployment, human control, or traceability. Broader document families remain part of the product direction, but they are expansion paths after the first paid pilot workflow is solid.
 
 ## Why This Exists
 
-Project-driven businesses already have systems of record. The painful part is the messy layer in front of those systems: email attachments, scanned PDFs, vendor portals, shared folders, inconsistent naming, missing metadata, and deadlines that still matter even when the paperwork is incomplete.
+Contractors and specialty trades already have accounting systems, project systems, and shared folders. The operational pain sits before those systems: COIs arrive by email, portal download, or shared drive; reviewers manually check dates and certificate holders; missing or expired coverage turns into follow-up work; and the review history often disappears into inboxes or spreadsheets.
 
-ProjectDoc Local is being designed to reduce that friction for documents such as:
+ProjectDoc Local is being designed to reduce that friction, starting with COIs and later expanding to documents such as:
 
 - certificates of insurance (COIs)
 - permits
+- lien waivers
 - invoices
 - change orders
-- lien waivers
 - contracts
 - inspection reports
 
@@ -26,15 +26,17 @@ ProjectDoc Local is being designed to reduce that friction for documents such as
 - Workflow fit over novelty. The product should support operations teams and back-office staff, not force them into generic AI interactions.
 - Commercial realism. Security, maintainability, traceability, and deployment discipline matter from the beginning.
 
-## Initial Product Shape
+## First Paid Pilot
 
-The first meaningful version of ProjectDoc Local is expected to provide:
+The first paid pilot should do one workflow well:
 
-1. Controlled document intake from uploads, watched folders, and service endpoints.
-2. Document classification plus targeted field extraction by document type.
-3. A review queue for low-confidence, incomplete, or policy-sensitive items.
-4. Status tracking, decision history, and audit logs.
-5. Search, filtering, and export-ready records for downstream systems.
+1. Intake COIs through controlled local upload paths and staged folder ingestion.
+2. Extract core COI fields such as named insured, certificate holder, producer, policy dates, and coverage-related review signals.
+3. Surface uncertain or incomplete results in a review queue instead of pretending the system can approve them automatically.
+4. Preserve an audit trail of system output, reviewer corrections, approvals, and follow-up decisions.
+5. Let back-office teams search and filter reviewed COI records for operational use and CSV handoff.
+
+This is a focused compliance review product first. The broader architecture still supports later expansion to other project document families, but the first sellable motion should not read like "all project docs at once."
 
 This repository starts with product and engineering foundations alongside early application code. The intent is to align on scope, constraints, and quality expectations early enough to avoid building something flashy but operationally weak.
 
@@ -93,6 +95,7 @@ Default local endpoints:
 - [`docs/problem-statement.md`](docs/problem-statement.md): the business problem and why current workflows break down
 - [`docs/personas.md`](docs/personas.md): target users, responsibilities, and needs
 - [`docs/mvp-scope.md`](docs/mvp-scope.md): what the first sellable internal milestone should and should not include
+- [`docs/pilot-offer.md`](docs/pilot-offer.md): who the first paid pilot is for, what workflow it covers, and how success should be measured
 - [`docs/non-goals.md`](docs/non-goals.md): explicit boundaries to keep the product grounded
 - [`docs/architecture.md`](docs/architecture.md): the recommended MVP application architecture and component boundaries
 - [`docs/tech-stack.md`](docs/tech-stack.md): the concrete stack choice for the first implementation

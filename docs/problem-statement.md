@@ -1,62 +1,61 @@
 # Problem Statement
 
-## The Operational Reality
+## The First Commercial Problem
 
-Project-based businesses run on documents that arrive in inconsistent formats and through inconsistent channels. A single project may involve COIs, invoices, permits, change orders, waivers, contracts, and inspection reports coming from different external parties over weeks or months.
+Contractors and specialty trades do not need a generic "all project documents" platform on day one. The first problem worth paying to solve is narrower: reviewing certificates of insurance and related compliance paperwork without relying on inboxes, spreadsheets, and memory.
 
-Those documents are usually handled through a combination of:
+In many construction back offices, COIs arrive through:
 
-- email inboxes
+- email attachments
+- downloaded vendor portal files
 - shared network folders
-- cloud storage links
-- ERP attachments
-- vendor or customer portals
-- manual spreadsheet tracking
+- manually forwarded PDFs from project teams
 
-The result is not a clean workflow. It is a patchwork of intake methods, naming conventions, and manual follow-up.
+The review work is repetitive, deadline-sensitive, and easy to lose track of. Someone still has to open the document, check key fields, decide whether the document is acceptable, and record what happened.
 
-## What Breaks Down
-
-Teams lose time and take on risk when document handling depends on people remembering every rule and every deadline.
+## What Breaks Down In Current COI Workflows
 
 Common failure modes include:
 
-- a COI is received but not reviewed for expiration, limits, or certificate holder details
-- an invoice is manually keyed more than once or routed without enough context
-- a change order is filed but not tied cleanly to the correct project and amount
-- a permit document exists somewhere, but nobody can quickly confirm current status
-- a reviewer corrects a field, but there is no durable record of what the system first extracted
-- operations leaders cannot see which documents are blocked, incomplete, or aging out
+- a COI is received but not reviewed quickly enough to catch expiration risk
+- certificate holder details do not match the current job or contracting entity
+- missing or unclear coverage information turns into back-and-forth follow-up with no clean queue
+- reviewers manually key or copy the same information into spreadsheets and internal notes
+- a reviewer corrects or approves something, but there is no durable record of what was originally extracted or why the decision was made
+- managers cannot see which documents are waiting on review, follow-up, or approval
+
+These are not abstract document-AI problems. They are operational compliance problems with financial and project risk attached.
 
 ## Why Existing Tools Fall Short
 
-The available options often miss the real need:
+The available options usually miss the real workflow:
 
-- Shared folders and generic document management tools store files but do not structure the work around them.
-- ERP systems expect clean inputs and are poor front doors for messy intake.
-- Generic OCR and document AI tools may extract text, but they do not provide enough workflow, policy control, or auditability for day-to-day operations.
-- Cloud-first AI products can conflict with customer privacy, procurement, or deployment requirements.
+- shared folders store files, but they do not manage review work
+- ERP and project systems are poor front doors for messy COI intake
+- generic OCR and document extraction tools may pull text, but they rarely provide enough human review structure or auditability
+- cloud-first AI products can create friction for customers that want local control over documents and model runtimes
 
 ## The Product Opportunity
 
-There is room for a focused product that sits between raw document intake and downstream systems of record.
+There is room for a focused on-prem product that sits between raw COI intake and downstream systems of record.
 
 That product should:
 
-- run in customer-controlled environments
-- support high-friction document types common in project operations
-- expose extraction results for review rather than hide them
-- maintain a clear audit trail of system output and user decisions
-- make exception handling explicit instead of leaving it in inboxes and side conversations
+- run in a customer-controlled environment
+- intake COIs through practical local workflows
+- extract useful review fields without pretending accuracy is perfect
+- route uncertain or incomplete documents to a human reviewer
+- preserve who changed what, when, and why
 
-## Product Constraints Created by the Problem
+## Why This Narrow Scope Matters
 
-The problem itself implies non-negotiable product requirements:
+A credible paid pilot does not need to solve invoices, change orders, permits, waivers, and contracts all at once.
 
-- privacy and data locality matter
-- review workflows matter more than demo-quality extraction screenshots
-- document provenance and audit logs matter
-- configurable rules and status handling matter
-- maintainability matters because these workflows become business-critical quickly
+Those document families remain reasonable later expansion paths, but the first commercial motion should stay centered on COI and compliance review because:
 
-ProjectDoc Local exists to address those constraints directly, not to abstract them away with marketing language.
+- the buyer pain is immediate
+- the workflow is repetitive enough to benefit from assisted review
+- human approval still matters, which makes auditability a real differentiator
+- local deployment is easier to justify when the workflow is compliance-sensitive
+
+ProjectDoc Local exists to make that first workflow faster, more reviewable, and easier to trust.

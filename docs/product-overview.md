@@ -2,30 +2,30 @@
 
 ## Summary
 
-ProjectDoc Local is an on-prem document operations product for project-based businesses, especially contractors and construction back offices. It is intended to help teams ingest project documents, classify them, extract key fields, review uncertain results, and maintain an auditable operating record inside customer-controlled infrastructure.
+ProjectDoc Local is an on-prem document operations product for contractor and specialty trade back offices. The first commercial wedge is certificate of insurance review: intake COIs, extract the fields reviewers care about, route uncertain cases to human review, and preserve an auditable operating record inside customer-controlled infrastructure.
 
 The product is deliberately positioned as AI-assisted, not AI-autonomous. Extraction should accelerate work, but human operators must remain able to verify, correct, approve, and trace the system's output.
 
 ## Who It Serves
 
-The initial target market is organizations that manage a steady volume of compliance, billing, and project administration paperwork, including:
+The initial target market is organizations that manage a steady volume of compliance paperwork, including:
 
 - general contractors
 - specialty subcontractors
 - construction services firms
 - project-based field service businesses with regulated or deadline-sensitive documentation
 
-These teams are often dealing with a mix of PDFs, scans, email attachments, downloaded portal files, and manually renamed folders across active projects.
+These teams are often dealing with a mix of PDFs, scans, email attachments, downloaded portal files, and manually renamed folders across active projects, with COIs as the first workflow worth productizing.
 
 ## Core Product Jobs
 
-ProjectDoc Local is being designed to do five things well:
+ProjectDoc Local is being designed to do five things well in the first pilot wedge:
 
-1. Accept documents through controlled intake paths.
-2. Identify the likely document type and extract the fields that matter for operations.
+1. Accept COIs through controlled local intake paths.
+2. Extract the fields that matter for compliance review.
 3. Send uncertain or policy-sensitive items into a structured review process.
-4. Preserve the history of system output, user edits, approvals, and export events.
-5. Make approved records usable by downstream business systems and reporting processes.
+4. Preserve the history of system output, user edits, approvals, and follow-up actions.
+5. Make reviewed records usable by downstream operational processes.
 
 ## Product Principles
 
@@ -62,4 +62,4 @@ At maturity, the product should support:
 
 ## What Good Looks Like
 
-ProjectDoc Local is valuable if it helps teams process project paperwork with less manual rekeying, fewer hidden exceptions, and a clearer chain of custody from intake through approval. Success depends less on claiming perfect extraction and more on reducing operational friction while preserving control.
+ProjectDoc Local is valuable if it helps teams process COIs and later project paperwork with less manual rekeying, fewer hidden exceptions, and a clearer chain of custody from intake through approval. Success depends less on claiming perfect extraction and more on reducing operational friction while preserving control.

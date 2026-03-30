@@ -1,110 +1,94 @@
 # Personas
 
-## 1. Compliance Coordinator
+## 1. Compliance Coordinator or Back-Office Reviewer
+
+### Role In The Pilot
+
+This is the primary pilot user and the strongest first buyer-side champion.
 
 ### Responsibilities
 
-- collect and review COIs, permits, waivers, and other compliance-heavy documents
-- confirm dates, coverage details, statuses, and missing items
-- chase vendors or subcontractors when paperwork is incomplete or expired
+- collect and review COIs from subcontractors, vendors, and specialty trades
+- confirm certificate holder details, policy dates, and obvious compliance exceptions
+- chase missing or expired paperwork before work starts or continues
+- maintain a defensible record of what was reviewed and when
 
 ### Pain Points
 
-- documents arrive in inconsistent formats and from many sources
-- critical fields are buried in long PDFs or scans
-- deadlines and expiration dates are easy to miss when work lives in inboxes
-- it is difficult to prove what was reviewed and when
+- COIs arrive through email, portals, and shared folders with inconsistent naming
+- key fields are buried in PDFs and scans
+- review work is tracked in inboxes and spreadsheets instead of a clear queue
+- it is difficult to reconstruct who approved a document or what was corrected
+- deadlines create operational risk when follow-up is manual and fragmented
 
-### Needs From ProjectDoc Local
+### What They Need From ProjectDoc Local
 
-- reliable intake and classification for compliance documents
-- clear extraction of dates, parties, status fields, and exception flags
-- review queues that surface expiring, incomplete, or low-confidence items
-- a durable audit trail for approvals and corrections
+- fast local intake for COIs
+- extraction of the fields they actually check
+- explicit review queues for low-confidence or incomplete documents
+- clear source evidence, confidence, and audit history
+- a workflow that helps them move faster without hiding risk
 
-## 2. Project Administrator
+## 2. Operations or Back Office Manager
+
+### Role In The Pilot
+
+This person usually owns the business case and judges whether the pilot is worth paying for.
 
 ### Responsibilities
 
-- keep project paperwork organized and current
-- route incoming documents to the right internal owners
-- track whether required documents have been received for active jobs
+- oversee compliance throughput and staffing pressure
+- reduce avoidable rework in document review
+- standardize how reviewers process incoming COIs
+- protect the business from preventable compliance lapses
 
 ### Pain Points
 
-- project documents are scattered across email, folders, and portals
-- file names and document formats are inconsistent
-- project-specific context is often missing from the intake source
-- there is no fast way to see what is waiting on review
+- reviewers spend too much time opening PDFs and rechecking obvious fields
+- exceptions are handled inconsistently across team members
+- there is limited visibility into backlog, aging items, and follow-up status
+- generic automation tools look promising but are hard to trust in real operations
 
-### Needs From ProjectDoc Local
+### What They Need From ProjectDoc Local
 
-- a central intake point tied to project metadata
-- search and filters by project, document type, vendor, and status
-- visible workflow state for documents that are blocked or ready
-- a practical way to hand approved records to downstream teams
-
-## 3. Accounts Payable Specialist
-
-### Responsibilities
-
-- receive vendor invoices
-- verify invoice metadata and supporting references
-- move approved information into accounting workflows
-
-### Pain Points
-
-- invoice data is re-entered manually from PDFs and scans
-- project coding and reference numbers are often missing or inconsistent
-- exceptions get buried in email threads instead of tracked in a queue
-- there is limited visibility into who changed a value before posting
-
-### Needs From ProjectDoc Local
-
-- structured capture of invoice headers and totals
-- confidence-aware review before export
-- exception handling for missing references, duplicates, and mismatches
-- export-ready records with edit history
-
-## 4. Operations or Back Office Manager
-
-### Responsibilities
-
-- oversee processing throughput and operational risk
-- standardize workflows across teams
-- reduce rework without losing control of sensitive processes
-
-### Pain Points
-
-- document work is labor-intensive but hard to measure
-- exceptions are handled inconsistently across staff members
-- there is no single view of backlog, aging items, or review bottlenecks
-- generic automation tools look impressive but are hard to trust in production
-
-### Needs From ProjectDoc Local
-
-- visible queues, status metrics, and throughput reporting
-- consistent review workflows with clear control points
+- a narrow workflow that solves a painful problem first
+- visible queue status and reviewer accountability
 - auditability suitable for internal controls and customer scrutiny
-- incremental automation that improves speed without hiding risk
+- local deployment that avoids a procurement fight around cloud document handling
 
-## 5. IT or Systems Administrator
+## 3. IT or Systems Administrator
+
+### Role In The Pilot
+
+This person often approves or blocks the deployment model.
 
 ### Responsibilities
 
-- deploy and maintain internal business systems
-- manage identity, network boundaries, storage, and backups
-- evaluate operational risk before new software is introduced
+- evaluate deployment, storage, backup, and access boundaries
+- maintain internal business systems and local infrastructure
+- assess whether new software introduces support or security risk
 
 ### Pain Points
 
-- cloud-first tools may not fit security or procurement requirements
-- teams want automation, but data movement and model access can be hard to govern
-- unclear deployment expectations create long implementation cycles
+- cloud-first products can trigger data handling and procurement concerns
+- unclear runtime and storage expectations slow down internal approvals
+- teams want automation, but hidden data movement creates resistance
 
-### Needs From ProjectDoc Local
+### What They Need From ProjectDoc Local
 
-- a deployment model that is explicit, supportable, and locally controlled
+- a clear on-prem deployment posture
 - predictable storage and runtime requirements
 - minimal hidden data egress
-- operational logs and configuration that can be reviewed by administrators
+- audit and configuration surfaces they can inspect
+
+## 4. Later Expansion Personas
+
+These personas matter, but they are not the first paid pilot wedge.
+
+### Project Administrator
+
+Relevant later when ProjectDoc Local expands further into permits, waivers, and broader project-document tracking.
+
+### Accounts Payable Specialist
+
+Relevant later when invoices become a first-class workflow instead of a future expansion path.
